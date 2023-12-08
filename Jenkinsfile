@@ -66,8 +66,10 @@ pipeline{
                 script {
                     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                        NEW_IMAGE_NAME = "haquocdat543/vuev1:latest"
-                       sh "sed -i 's|image: .*|image: $NEW_IMAGE_NAME|' deployment.yml"
-                       sh 'git add deployment.yml'
+                       sh "sed -i 's|image: .*|image: $NEW_IMAGE_NAME|' resources/deployment.yaml"
+                       sh 'git config --global user.name "haquocdat543"'
+                       sh 'git config --global user.email "wwwdatha543@gmail.com"'
+                       sh 'git add resources/deployment.yaml'
                        sh "git commit -m 'Update deployment image to $NEW_IMAGE_NAME'"
                        sh "git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main"
                     }
