@@ -44,16 +44,16 @@ pipeline{
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
-                       sh "docker build -t vuev1 ."
-                       sh "docker tag vuev1 haquocdat543/vuev1:latest "
-                       sh "docker push haquocdat543/vuev1:latest "
+                       sh "docker build -t vuev2 ."
+                       sh "docker tag vuev2 haquocdat543/vuev2:latest "
+                       sh "docker push haquocdat543/vuev2:latest "
                     }
                 }
             }
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image haquocdat543/vuev1:latest > trivyimage.txt" 
+                sh "trivy image haquocdat543/vuev2:latest > trivyimage.txt" 
             }
         }
 	stage('Checkout Code') {
@@ -65,7 +65,7 @@ pipeline{
             steps {
                 script {
                     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
-                       NEW_IMAGE_NAME = "haquocdat543/vuev1:latest"
+                       NEW_IMAGE_NAME = "haquocdat543/vuev2:latest"
                        sh "sed -i 's|image: .*|image: $NEW_IMAGE_NAME|' resources/deployment.yaml"
                        sh 'git config --global user.name "haquocdat543"'
                        sh 'git config --global user.email "wwwdatha543@gmail.com"'
